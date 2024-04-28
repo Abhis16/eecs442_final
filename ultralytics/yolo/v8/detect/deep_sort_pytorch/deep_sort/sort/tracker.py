@@ -4,6 +4,7 @@ import numpy as np
 from . import kalman_filter
 from . import linear_assignment
 from . import iou_matching
+from . import unscented_kf
 from .track import Track
 
 
@@ -43,7 +44,7 @@ class Tracker:
         self.max_age = max_age
         self.n_init = n_init
 
-        self.kf = kalman_filter.KalmanFilter()
+        self.kf = self.kf = unscented_kf.UKF()
         self.tracks = []
         self._next_id = 1
 
