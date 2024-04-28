@@ -174,7 +174,36 @@ class DetectionPredictor(BasePredictor):
     def preprocess(self, img):
         img = torch.from_numpy(img).to(self.model.device)
         img = img.half() if self.model.fp16 else img.float()  # uint8 to fp16/32
+        img = self.sharpen(img)
+        img = self.highlight_white(img)
         img /= 255  # 0 - 255 to 0.0 - 1.0
+        return img
+    
+    def sharpen(self, img):
+        # print("original image shape: ", img.shape)
+        kernel = torch.tensor([[-0.11, -0.11, -0.11],
+                               [-0.11, 1.88, -0.11],
+                               [-0.11, -0.11, -0.11]])
+        
+        # add the channel and batch dimensions
+        img_unsqueezed = img.unsqueeze(0)
+        kernel = kernel.unsqueeze(0).unsqueeze(0)
+        kernel = kernel.repeat(3, 1, 1, 1)
+        kernel = kernel.float()
+        img = torch.nn.functional.conv2d(img_unsqueezed, kernel, padding=1, groups=3)
+        img = img.squeeze(0)
+        return img
+
+    def highlight_white(self, img):
+        # estimating intensity by averaging across the rgb channels
+        est_color = img.mean(dim=0)
+
+        mask = est_color < 85
+        mask = mask.unsqueeze(0).repeat(3, 1, 1)
+        img = torch.where(mask, torch.zeros_like(img), img)
+        img_np = img.numpy() 
+        img_np = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
+        # print(img_np)
         return img
 
     def postprocess(self, preds, img, orig_img):
