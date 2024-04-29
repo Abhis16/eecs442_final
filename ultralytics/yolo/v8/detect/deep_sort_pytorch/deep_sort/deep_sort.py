@@ -43,14 +43,28 @@ class DeepSort(object):
         for track in self.tracker.tracks:
             if not track.is_confirmed() or track.time_since_update > 1:
                 continue
-            box = track.to_tlwh()
-            x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
-            track_id = track.track_id
-            track_oid = track.oid
-            outputs.append(np.array([x1, y1, x2, y2, track_id, track_oid], dtype=int))
+
+            print("track:", track)
+            if len(track.history) > 1:
+              speed = self.calculate_speed(track.history[-2], track.history[-1])
+              if speed > 1.75:
+                box = track.to_tlwh()
+                x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
+                track_id = track.track_id
+                track_oid = track.oid
+                outputs.append(np.array([x1, y1, x2, y2, track_id, track_oid], dtype=int))
         if len(outputs) > 0:
             outputs = np.stack(outputs, axis=0)
+        print("outputs from deepsort:", outputs)
         return outputs
+
+    def calculate_speed(self, position1, position2):
+      dx = position2[0] - position1[0]
+      dy = position2[1] - position1[1]
+      distance = (dx**2 + dy**2)**0.5
+      time = 1 / 0.16
+      speed = distance / time
+      return speed
 
     """
     TODO:
