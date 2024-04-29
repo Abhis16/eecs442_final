@@ -9,9 +9,11 @@ YOLOv8 Object Detection</H1>
 ### Stuff to add
 
 - Add some other Kalman filter implementations
+    - UKF: Yamato
 - Maybe add particle filters
 - Add layers to neural net
 - Change optimizer from Adam
 - Change hyperparameters
 - Train on different dataset
+    - Leo
 - 
