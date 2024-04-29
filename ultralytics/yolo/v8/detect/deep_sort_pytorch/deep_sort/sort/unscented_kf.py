@@ -75,6 +75,7 @@ class UKF(object):
             sigma_points[i + 1 + self._ndim + 2] = mean - np.sqrt(self._ndim + 2 + self._lamda) * L[i]
         return sigma_points
 
+
     def predict(self, mean, covariance):
         """Run Kalman filter prediction step.
 
@@ -104,7 +105,6 @@ class UKF(object):
             1e-6
         ]
         covariance_aug[5:, 5:] = np.diag(np.square(std))
-        # return mean_aug, covariance_aug
         
         self.sigma_points = self.generate_sigma_point(mean_aug, covariance_aug)
         predicted_sigma_points = np.zeros((self._no_sigma_points + 4, self._ndim))

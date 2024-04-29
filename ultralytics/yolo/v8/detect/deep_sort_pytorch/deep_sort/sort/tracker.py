@@ -7,7 +7,6 @@ from . import iou_matching
 from . import unscented_kf
 from .track import Track
 
-
 class Tracker:
     """
     This is the multi-target tracker.
@@ -44,7 +43,8 @@ class Tracker:
         self.max_age = max_age
         self.n_init = n_init
 
-        self.kf = self.kf = unscented_kf.UKF()
+        self.kf = unscented_kf.UKF()
+
         self.tracks = []
         self._next_id = 1
 
