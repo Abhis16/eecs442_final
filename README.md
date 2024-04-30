@@ -1,9 +1,7 @@
 <H1 align="center">
 YOLOv8 Object Detection</H1>
 
-### Stuff to add
-
-YOLO and Baseline DeepSORT implementation are from 
+YOLO + Baseline DeepSORT implementation are from 
 [here](https://github.com/MuhammadMoinFaisal/YOLOv8-DeepSORT-Object-Tracking).
 
 ## Training Colab File
