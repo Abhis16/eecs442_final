@@ -102,6 +102,9 @@ First line of institution2 address\\
 
 \section{Background}
 \label{sec:background}
+
+
+
 A prevalent approach for
 solving the task of tracking sports balls is the Simple Online and Realtime Tracking (SORT) algorithm, as outlined in
 https://arxiv.org/abs/1602.00763 \textbf{CHANGE TO REFERENCE}. 
@@ -170,12 +173,6 @@ A major issue we ran into was that the model was identifying any small, circular
 For example, it detected portions of 
 In order to improve this, we implemented motion filtering. We added to DeepSORT the ability to cache previous positions of objects and use that to calculate an approximation for the speed of the objects being tracked. We then filtered the bounding boxes by the speed of the object they were tracking, and only drew them if the object was moving above a particular speed. We tuned the threshold for the speed, running it multiple times until we found a value that blocked out as much background as we could while not impacting the detection of the actual ball.
 
-\section{Results}
-\begin{figure}
-  \centering 
-  \includegraphics[width=7cm]{trainingdata.png}
-  \caption{loss and metrics from training the model. The box loss (i.e. the loss in terms of the bounding boxes that were tracked) is the key component here; there was only one class, so the cls_loss and dfs_loss are less relevant.}
-\end{figure}
 
 Clearly, the box loss decreased as a result of our training. We started from a loss of approximately 2.00, and ended with a final loss of 1.245. 
 
@@ -189,13 +186,9 @@ Qualitatively, when we used the inbuilt weights (from training using the COCO da
     \caption{result from applying deepSort with base Kalman filter to a Ping Pong video. Observe from the image on the left that the tracker fails shortly after the ball comes into contact with the paddle (because of non-linear motion)}%
 \end{figure}
 \begin{figure}{
-  \includegraphics[width=7cm]{validation.jpeg}
-}
-\end
+  \includegraphics[width=7cm]{validation.jpeg}}
+\end{figure}
 %-------------------------------------------------------------------------
-\subsection{Language}
-
-All manuscripts must be in English.
 
 \subsection{Dual submission}
 
